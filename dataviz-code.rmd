@@ -1,0 +1,40 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# DATA VISUALIZATION PROJECT - FIRST TRY
+
+### Author: Radhika Kaul
+
+### Date: 2/6/2020
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r load-packages}
+library(tidyverse)
+```
+
+### Preliminary data exploration
+
+``` {r load-data}
+
+# Loading the Quality of Government Dataset
+library(readr)
+Data <- read_csv("data/qog_std_cs_jan20.csv")
+
+class(Data)  ##Determining the class the datasets belong to
+```
+
+```{r summary}
+# Mean of Fragile State Index by Region across the world, but names have not transported.
+Data %>%
+  group_by(ht_region) %>%
+  summarize(FSI_mean = mean(ffp_fsi))
+
+```
+### To next steps
