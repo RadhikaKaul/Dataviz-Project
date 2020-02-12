@@ -1,44 +1,11 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
+# Assignment 3
 
-# DATA VISUALIZATION PROJECT - FIRST TRY
+# Author: Radhika Kaul
 
-### Author: Radhika Kaul
+# Dataset used: Quality of government dataset
 
-### Date: 2/6/2020
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(message = FALSE)
-knitr::opts_chunk$set(warning = FALSE)
-```
+#Summary: Is a compilation of several datasets and consists more than 2000 variables
 
-```{r load-packages}
-library(tidyverse)
-```
-
-### Preliminary data exploration
-
-``` {r load-data}
-
-# Loading the Quality of Government Dataset
-library(readr)
-Data <- read_csv("data/qog_std_cs_jan20.csv")
-
-class(Data)  ##Determining the class the datasets belong to
-```
-
-```{r summary}
-# Mean of Fragile State Index by Region across the world, but names have not transported.
-Data %>%
-  group_by(ht_region) %>%
-  summarize(FSI_mean = mean(ffp_fsi))
-
-```
-
-```{r Data Plot 1}
-# Fragile States Index and Corruption Perception Index association.
 # Loading necessary packages
 library(tidyverse)
 library(haven)
@@ -79,7 +46,5 @@ View(df_1)
           axis.ticks.x = element_line(),
           axis.ticks.y = element_line(),
           plot.margin = unit(c(1,1,1,1), "cm"))
-```
-
-
-### To next steps
+  
+# Corruption perception and fragile states index is negatively correlated, but need to add more information about inference.
