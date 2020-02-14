@@ -9,19 +9,19 @@
 # Loading necessary packages
 library(tidyverse)
 library(haven)
-library(stringr)
+
 
 # Loading the Quality of Government Dataset
-library(readr)
+
 Data <- read_csv("data/qog_std_cs_jan20.csv")
-View(Data)
+
 
 # Visualization 1: Correlation b/w Fragile States and Corruption Perception in the country
 
 
 df_1 <- select(Data, cname, ffp_fsi, ti_cpi, ht_region) 
 df_1$ht_region <- as.factor(df_1$ht_region)
-View(df_1)
+
 
   ggplot(df_1, mapping = aes(x = ffp_fsi, y = ti_cpi, color = ht_region))+
   geom_point()+
@@ -48,3 +48,10 @@ View(df_1)
           plot.margin = unit(c(1,1,1,1), "cm"))
   
 # Corruption perception and fragile states index is negatively correlated, but need to add more information about inference.
+  
+  
+  
+  
+  
+
+    
