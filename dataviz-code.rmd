@@ -4,11 +4,11 @@ editor_options:
   chunk_output_type: console
 ---
 
-# DATA VISUALIZATION PROJECT - FIRST TRY
+# Exploration of percepetion of corruption practices and its impact on Ease of Doing Business Scores for selected countries.
 
+### DATA VISUALIZATION PROJECT - ASSIGNMENT 3
 ### Author: Radhika Kaul
-
-### Date: 2/6/2020
+### Date: 2/14/2020
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
@@ -23,9 +23,9 @@ library(tidyverse)
 ``` {r load-data}
 
 # Loading the Quality of Government Dataset
-library(readr)
-Data <- read_csv("data/qog_std_cs_jan20.csv")
 
+# For extra credit assignment
+Data <- read_csv("data/qog_std_cs_jan20.csv")
 class(Data)  ##Determining the class the datasets belong to
 ```
 
@@ -38,17 +38,19 @@ Data %>%
 ```
 
 ```{r Loading_Libraries}
-# Fragile States Index and Corruption Perception Index association.
+
 # Loading necessary packages
+
 library(tidyverse)
 library(haven)
 ```
 
 ```{r Loading_Data}
+
 # Loading the Quality of Government Dataset
+
 Data_cs <- read_csv("data/qog_std_cs_jan20.csv")
 Data_ts <- read_csv("data/qog_std_ts_jan20.csv")
-
 ```
 
 
@@ -73,15 +75,18 @@ df_1_joined <- left_join(df_1, region_df, by = "ht_region")
 ```
 
 ```{r ggplot_1}
+
+#Creating Plot 1: Comparing fragile states and level of the corruption perception
+
   ggplot(df_1_joined, mapping = aes(x = ffp_fsi, 
                                   y = ti_cpi, 
                                   color = region))+
   geom_point()+
-    labs(title = paste("Relation between corruption and fragility of states across differennt \ncountries in the world in 2019 "),
+    labs(title = paste("Relation between corruption and fragility of states across different \ncountries in the world in 2019 "),
          subtitle = "States with a higher fragility index are associates with higher corruption index",
-         caption ="The Quality of Government Standard Dataset(2020). University of Gothenburg: The Quality of Government Institute \nFSI=0(least corrupt); FSI=100(most corrupt)\nCPI=0(most corrupt);CPI=100(least corrupt)",         
+         caption ="The Quality of Government Standard Dataset(2020).\nThe Quality of Government Institute \nFSI=0(least corrupt); FSI=100(most corrupt)\nCPI=0(most corrupt);CPI=100(least corrupt)",         
          x = "Fragile States Index",
-         y = "Corruption Perceptions Index",
+         y = "Corruption \nPerceptions Index",
          color = "Region")+
     scale_x_continuous(limits=c(0,120),
                        breaks=c(0, 30, 60, 90, 120))+
@@ -100,7 +105,7 @@ df_1_joined <- left_join(df_1, region_df, by = "ht_region")
         axis.line.y = element_line(linetype = "solid"),
         axis.ticks.x = element_line(),
         axis.ticks.y = element_line(),
-        plot.margin = unit(c(1,1,1,1), "cm"))
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))
 ```
 
 
@@ -108,9 +113,17 @@ df_1_joined <- left_join(df_1, region_df, by = "ht_region")
 
 
 ```{r plot_2_wrangling}
+
+#Limiting data to 10 countries and for years between 2010 and 2019.
+
 Data_ts_new <- Data_ts %>%
                filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany", "Iran", "Turkey", "India", "China")) %>%
                filter(year>2011) 
+```
+
+```{r create_dataframe}
+
+#Create a dataframe for region for now.
 
 region_df <- data.frame(ht_region = 1:10, 
                         region = c("Eastern Europe",
@@ -130,10 +143,11 @@ df_2_joined$year <- as.character(df_2_joined$year)
 df_2_joined$year <- as.factor(df_2_joined$year)
 df_2_joined$cname <-as.factor(df_2_joined$cname)
 df_2_joined <- select(df_2_joined, cname, year, ti_cpi, ht_region, region)
-
 ```
 
 ```{r plot_2_plot}
+
+#Creating Plot 2: Change in Corruption Index across years.
 
 ggplot(df_2_joined, aes(x= year , 
                   y=ti_cpi,
@@ -158,47 +172,63 @@ ggplot(df_2_joined, aes(x= year ,
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
   labs(title = paste("CPI|Corruption Perception Index for selected countries between years 2010-2019 "),
        subtitle = "The CPI generally defines corruption as the misuse of public power for private benefit.\nThe CPI currently ranks 176 countrieson a scale of 100(very clean) to 0(highly corrupt)",
-       caption ="Source:The Quality of Government Standard Dataset(2020). University of Gothenburg: The Quality of Government Institute",
+       caption ="Source:The Quality of Government Standard Dataset(2020).",
        fill = "Country",
        x = "Year",
-       y = "Corruption Perception Index ")
+       y = "Corruption \nPerceptions Index ")
 ```
 
 
 
-  ```{r plot_3_libraries}
+
+```{r plot_3_libraries}
+
+#Loading necessary packages
+
   library(ggalt)
   library(tidyr)
   library(readxl)
-  ```
+```
   
-  ```{r plot3_wrangling}
-  # create a dumbell plot 
+```{r plot3_wrangling}
+
+# Creating a dumbbell plot.
   
+#Loading datasets
   Data_cs <- read_csv("data/qog_std_cs_jan20.csv")
-  
-  
   eodb <- read_excel("data/eodb.xlsx")
   
-  
+#Joining the Ease of doing Business data onto to the Quality of Government Data
   df_3_joined <- left_join(Data_cs, eodb, by = "cname")
-  
+
+#Selecting variables required for the visualizations
   df_3_joined <- select(df_3_joined, cname, wdi_pop, DB_2019, ti_cpi)
-  
   df_3_joined <- df_3_joined  %>%
-    filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany", "Iran", "Turkey", "India", "China"))
-  
+  filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany",    "Iran", "Turkey", "India", "China"))
+```
+
+
+```{r tidy data}  
+#Converting data for tidy format to generate a legend
   df_3_joined_long <- gather(df_3_joined, key = cpi_eodb, value = value, 3:4)
+
+index <- data.frame(cpi_eodb = c("DB_2019", "ti_cpi"), 
+                    index_2019 = c("Ease of Doing Business Score",
+                                   "Corruption Perception Index"))
+
+df_3_final <- left_join(df_3_joined_long, index, by = "cpi_eodb")
+```
   
-  ```
   
-  
-  ```{r [plot_3]}
+```{r [plot_3]}
+
+#Creating Plot 3: Gap b/w EoDB and CPI scores across differnt countries.
+
   ggplot(df_3_joined) +
-    geom_point(data = df_3_joined_long, aes(x = value, 
-                                            y = cname,
-                                            color = cpi_eodb), size = 2)+
-    scale_color_manual(name = "Index value", values = c("red", "blue"))+
+    geom_point(data = df_3_final, aes(x = value, 
+                                      y = cname,
+                                      color = index_2019), size = 2)+
+    scale_color_manual(name = "Index value", values = c("blue", "red"))+
     geom_dumbbell(data = df_3_joined,aes(y = cname,
                                          x = ti_cpi, xend = DB_2019),
                   colour = "#D8D8D8", size = 1.5,
@@ -214,9 +244,11 @@ ggplot(df_2_joined, aes(x= year ,
           panel.grid.minor.y = element_blank(),
           panel.grid.major.y = element_line(linetype = "dashed"),
           axis.line.x = element_line(linetype = "solid"),
-          axis.ticks.x = element_line())+
+          axis.ticks.x = element_line(),
+          plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
     labs(x = "Index values",
          y = "Countries",
-         caption = "Source:The Quality of Government Standard Dataset(2020). University of Gothenburg: The Quality of Government Institute",
-         title = " ",
-         subtitle = "")
+         caption = "Source:The Quality of Government Standard Dataset(2020).",
+         title = "Lower values of Ease of Doing Business Scores usually follows countries with bad corruption practices.",
+         subtitle = "Germany is surpisingly the only country that despite being less corrupt, has a lesser EoDB score.\nLargest gap  between the two indices is observed for Turkey and China.")
+```
