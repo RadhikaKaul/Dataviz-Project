@@ -50,7 +50,6 @@ library(haven)
 # Loading the Quality of Government Dataset
 
 Data_cs <- read_csv("data/qog_std_cs_jan20.csv")
-Data_ts <- read_csv("data/qog_std_ts_jan20.csv")
 ```
 
 
@@ -108,17 +107,19 @@ df_1_joined <- left_join(df_1, region_df, by = "ht_region")
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))
 ```
 
+#### The above graph shows how corruption and its implications in international business trading and investments represent an increasing interest for policymakers. Corruption is mostly studied with respect to economic welfare indicators such as per capita GDP, however, it also is a contributing factor in influencing doemestic entrpreneurship practices and foreign investment in country.
 
-
-
+#### Purpose of expressing the above graph with the fragile state index was to explore that due to weak institutions characterized by the high FSI score, it is more likely, on average to plauged by corrupt practices more often, thus hindering any emergence of healthy business practices.
 
 ```{r plot_2_wrangling}
 
-#Limiting data to 10 countries and for years between 2010 and 2019.
+#Limiting data to 10 countries and for years between 2012 and 2019, from the time series dataset.
 
+Data_ts <- read_csv("data/qog_std_ts_jan20.csv")
 Data_ts_new <- Data_ts %>%
-               filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany", "Iran", "Turkey", "India", "China")) %>%
-               filter(year>2011) 
+                   filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany", "Saudi Arabia", "Turkey", "India", "China", "South Sudan")) %>%
+                  filter(year>2011)
+                
 ```
 
 ```{r create_dataframe}
@@ -170,15 +171,17 @@ ggplot(df_2_joined, aes(x= year ,
         axis.ticks.x = element_line(),
         axis.ticks.y = element_line(),
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
-  labs(title = paste("CPI|Corruption Perception Index for selected countries between years 2010-2019 "),
-       subtitle = "The CPI generally defines corruption as the misuse of public power for private benefit.\nThe CPI currently ranks 176 countrieson a scale of 100(very clean) to 0(highly corrupt)",
+  labs(title = paste("Corruption Perception Indices over time for selected \ncountries between years 2012-2019 "),
+       subtitle = "The CPI generally defines corruption as the misuse of public power \nfor private benefit.The CPI currently ranks 176 countries \non a scale of 100(very clean) to 0(highly corrupt)",
        caption ="Source:The Quality of Government Standard Dataset(2020).",
        fill = "Country",
        x = "Year",
        y = "Corruption \nPerceptions Index ")
 ```
 
+#### The above graph represents the trajectly of corruption indices for 10 countries overtime. We can observe that Saudi Arabia seems to have experienced an improvement in the corruption score overtime, while Turkey observes the steepest decline among all countries. Turkey currently suffers from an annual inflation rate of 20.3% and the government in a bid to retain its power decided to boost consumer credit by subsidizing fruits and vegetables in the wholesale market in the run-up to the 2019 elections. Not surprising, it observes a relatively high Ease of Doing Business score, expressed in Plot 3, because the government strong-arms the local and state-owned banks to keep the lending rates artifically low so that the corporate sector backing the incumbent government stands to benefit from this arrangement(Bircan and Saka 2017).
 
+#### Higher values for both indices and a smaller gap may be indicative of a robust entrepreneurial sector in a country.
 
 
 ```{r plot_3_libraries}
@@ -204,13 +207,13 @@ ggplot(df_2_joined, aes(x= year ,
 #Selecting variables required for the visualizations
   df_3_joined <- select(df_3_joined, cname, wdi_pop, DB_2019, ti_cpi)
   df_3_joined <- df_3_joined  %>%
-  filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany",    "Iran", "Turkey", "India", "China"))
+  filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany", "Saudi Arabia", "Turkey", "India", "China", "South Sudan"))
 ```
 
 
 ```{r tidy data}  
 #Converting data for tidy format to generate a legend
-  df_3_joined_long <- gather(df_3_joined, key = cpi_eodb, value = value, 3:4)
+df_3_joined_long <- gather(df_3_joined, key = cpi_eodb, value = value, 3:4)
 
 index <- data.frame(cpi_eodb = c("DB_2019", "ti_cpi"), 
                     index_2019 = c("Ease of Doing Business Score",
@@ -249,6 +252,6 @@ df_3_final <- left_join(df_3_joined_long, index, by = "cpi_eodb")
     labs(x = "Index values",
          y = "Countries",
          caption = "Source:The Quality of Government Standard Dataset(2020).",
-         title = "Lower values of Ease of Doing Business Scores usually follows countries with bad corruption practices.",
+         title = "Lower values of Ease of Doing Business Scores usually \nfollows countries with bad corruption practices.",
          subtitle = "Germany is surpisingly the only country that despite being less corrupt, has a lesser EoDB score.\nLargest gap  between the two indices is observed for Turkey and China.")
 ```
