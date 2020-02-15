@@ -124,15 +124,14 @@ df_1_joined <- left_join(df_1, region_df, by = "ht_region")
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))
 ```
 
-#### The above graph shows how corruption and its implications in international business trading and investments represent an increasing interest for policymakers. Corruption is mostly studied with respect to economic welfare indicators such as per capita GDP, however, it also is a contributing factor in influencing doemestic entrpreneurship practices and foreign investment in country.
+#### The above graph shows how corruption and its implications in international business trading and investments represent an increasing interest for policymakers. Corruption is mostly studied with respect to economic welfare indicators such as per capita GDP, however, it also is a contributing factor in influencing domestic entrpreneurship practices and foreign investment in country.
 
-#### Purpose of expressing the above graph with the fragile state index was to explore that due to weak institutions characterized by the high FSI score, it is more likely, on average to plauged by corrupt practices more often, thus hindering any emergence of healthy business practices.
+#### Purpose of expressing the above graph with the fragile state index was to explore that countries with weak institutions, characterized by the high FSI score, are more likely, on average, to be plagued by corrupt practices, thus hindering any emergence of healthy business environment.
 
 ```{r plot_2_wrangling}
 
 #Limiting data to 10 countries and for years between 2012 and 2019, from the time series dataset.
 
-Data_ts <- read_csv("data/qog_std_ts_jan20.csv")
 Data_ts_new <- Data_ts %>%
   filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany", "Saudi Arabia", "Turkey", "India", "China", "South Sudan")) %>%
   filter(year>2011)
@@ -200,9 +199,8 @@ ggplot(df_2_joined, aes(x= year ,
        y = "Corruption \nPerceptions Index ")
 ```
 
-#### The above graph represents the trajectly of corruption indices for 10 countries overtime. We can observe that Saudi Arabia seems to have experienced an improvement in the corruption score overtime, while Turkey observes the steepest decline among all countries. Turkey currently suffers from an annual inflation rate of 20.3% and the government in a bid to retain its power decided to boost consumer credit by subsidizing fruits and vegetables in the wholesale market in the run-up to the 2019 elections. Not surprising, it observes a relatively high Ease of Doing Business score, expressed in Plot 3, because the government strong-arms the local and state-owned banks to keep the lending rates artifically low so that the corporate sector backing the incumbent government stands to benefit from this arrangement(Bircan and Saka 2017).
+#### The above graph represents the trajectory of corruption indices for 10 countries over time. We can observe that Saudi Arabia seems to have experienced an improvement in the corruption score overtime, while Turkey observes the steepest decline among all countries. Turkey currently suffers from an annual inflation rate of 20.3% and the government in a bid to retain its power decided to boost consumer credit by subsidizing fruits and vegetables in the wholesale market in the run-up to the 2019 elections. Not surprisingly, it observes a relatively high Ease of Doing Business score, expressed in Plot 3, because the government has the power to strong-arm the local and state-owned banks to keep the lending rates artifically low so that the corporate sector backing the incumbent government stands to benefit from this arrangement (Bircan and Saka 2017).
 
-#### Higher values for both indices and a smaller gap may be indicative of a robust entrepreneurial sector in a country.
 
 
 ```{r plot_3_libraries}
@@ -223,7 +221,7 @@ ggplot(df_2_joined, aes(x= year ,
 # Creating a dumbbell plot.
   
 #Loading datasets
-  Data_cs <- read_csv("data/qog_std_cs_jan20.csv")
+
   eodb <- read_excel("data/eodb.xlsx")
   
 #Joining the Ease of doing Business data onto to the Quality of Government Data
@@ -282,26 +280,32 @@ df_3_final$cname_order <- fct_rev(df_3_final$cname)
     labs(x = "Index values",
          y = "Countries",
          caption = "Source:The Quality of Government Standard Dataset(2020).",
-         title = "Lower values of Ease of Doing Business Scores usually \nfollows countries with bad corruption practices.",
+         title = "Lower values of Ease of Doing Business scores is\ncharacterized for countries with bad corruption practices (2019).",
          subtitle = "Germany is surpisingly the only country that despite being less corrupt, has a lesser \nEoDB score. Largest gap between the two indices is observed for \nTurkey and China.")
 ```
 
-#### As described in the previous paragraph, robust institutions and doing business capacity go hand in hand. Lower level of corruption is associated with higher level of entrepreneurial opportunities in countries with higher ranking in ease of doing business.
+#### Robust institutions and business environment go hand in hand. Lower level of corruption is associated with higher level of entrepreneurial opportunities in countries with higher ranking in ease of doing business.
 
-####  Since CPI is a subjective assessment of the level of corruption perceived by businesspersons, and how it effects on business, exploring the above relation was crucial as it offers some new insights on how corruption and regulatory environment impact entrepreneurship
+####  Since CPI is a subjective assessment of the level of corruption perceived by businesspersons, and how it effects on business, exploring the above relation was crucial as it offers some new insights on how corruption and regulatory environment impact businesses.
 
-#### Strong institutions can be characterized by low bribery rates, lesser red tape, favorable investment opportunities, lower occurences of fraud, high penalities for illegal practices and so on. 
+#### Strong institutions can be characterized as having low bribery rates, lesser red tape, favorable investment opportunities, lower occurences of fraud, and high penalities for illegal practices, among other metrics. 
+
+
 
 ```{r plot_4_libraries}
 library(dplyr)
 ```
 
+
+
 ```{r plot_4_wrangling}
-  Data_ts <- read_csv("data/qog_std_ts_jan20.csv")
+
   df_4 <- Data_ts %>%
     filter(cname %in% c("Afghanistan", "Pakistan", "United States", "Germany", "Saudi Arabia", "Turkey", "India", "China")) %>%
     filter(year == 2012 | year == 2018)
 ```
+
+
 
 ```{r plot_4_limiting the data}
 # Data frame with country, years and Foreign Direct Inflows and Outflows (% of GDP)
@@ -316,6 +320,8 @@ df_4_tidy$cname <-as.factor(df_4_tidy$cname)
 df_4_tidy$wdi_flows <- as.factor(df_4_tidy$wdi_flows)
 
 ```
+
+
 
 ```{r plot_4}
 
@@ -336,9 +342,15 @@ ggplot(df_4_tidy)+
          y = "% of GDP value",
          fill = "Foreign Direct Investment flows \n(as % of GDP)",
        caption = "Source:The Quality of Government Standard Dataset(2020).",
-       title = "Foreign Direct Investment and Ease of Doing Business",
-       subtitle = "")
+       title = "Foreign Direct Investment flows across different countries in 2012 \nand 2018.",
+       subtitle = "FDI flows records the greatest changes for countries such as \nGermany, Saudi Arabia and China.")
 ```
 
+#### In addition to measuring the costs and time it would take a given company to start a business, get credit, pay taxes, and enforce contracts, the score also measures the level of protection for investors. Investor confidence is bound to improve in countries with sound government institutions and enforcement mechanisms under which businesses thrive.
+
+
+#### Thus, the above graph becomes important is reflecting how FDI flows have improved across all the specified countries. Saudi Arabia experiences the largest proportional increase in FDI outflows between 2012 and 2018. The United States, on the other hand, sees a negative growth in FDI outflows in 2018, relative to 2012. Afghanistan is still characterized as a fragile state owing to lack of a good governance structure. This instability in addition to worsening economic conditions, and increasing corruption incidence has undermined investments, in turn, experiencing one of the lowest FDI flows.
+
+#### Thus, good governance and low corruption incidence in a country is essential to build an environment for to investors to pump money into lucrative projects and for businesses to thrive, in turn, contributing to higher economic growth.
 
 ##### Source: Teorell, Jan, Stefan Dahlberg, Sören Holmberg, Bo Rothstein, Natalia AlvaradoPachon & Sofia Axelsson. 2020. The Quality of Government Standard Dataset, versionJan20. University of Gothenburg: The Quality of Government Institute, http://www.qog.pol.gu.se doi:10.18157/qogstdjan20
