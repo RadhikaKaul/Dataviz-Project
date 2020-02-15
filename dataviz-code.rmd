@@ -100,7 +100,7 @@ df_1_joined <- left_join(df_1, region_df, by = "ht_region")
   geom_point()+
     labs(title = paste("Relation between corruption and fragility of states across different \ncountries in the world in 2019 "),
          subtitle = "Countries with a higher fragility index are associates with higher corruption index.",
-         caption ="The Quality of Government Standard Dataset(2020).\nThe Quality of Government Institute \nFSI=0(least corrupt); FSI=100(most corrupt)\nCPI=0(most corrupt);CPI=100(least corrupt)",         
+         caption ="Source: The Quality of Government Standard Dataset(2020).\nThe Quality of Government Institute \nFSI=0(least corrupt); FSI=100(most corrupt)\nCPI=0(most corrupt);CPI=100(least corrupt)",         
          x = "Fragile States Index",
          y = "Corruption \nPerceptions Index",
          color = "Region")+
